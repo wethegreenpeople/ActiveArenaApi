@@ -30,4 +30,18 @@ public class FighterController : ControllerBase
 
         return fighter; 
     }
+
+    [HttpGet]
+    public async Task<ActionResult<List<Fighter>>> GetUserFighters()
+    {
+        _logger.LogInformation("Getting fighters for user");
+        var accessToken = Request.Headers[HeaderNames.Authorization].First();
+        var user = SupabaseUtils.IsAuthenticatedAsync(accessToken).Result;
+        if (user == null) return Unauthorized();
+
+        var fighters = await SupabaseUtils.Supabase.From<FighterRow>().Match(new Dictionary<string, string> {{"owner", user.Id}}).Get();
+        _logger.LogInformation("Got {fighterCount} fighters for {userId}", fighters.Models.Count(), user.Id);
+
+        return fighters.Models.Select(s => new Fighter(s.Id, s.Health, s.Name)).ToList(); 
+    }
 }
