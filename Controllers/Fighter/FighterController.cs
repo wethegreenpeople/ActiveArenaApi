@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
 
@@ -39,9 +40,9 @@ public class FighterController : ControllerBase
         var user = SupabaseUtils.IsAuthenticatedAsync(accessToken).Result;
         if (user == null) return Unauthorized();
 
-        var fighters = await SupabaseUtils.Supabase.From<FighterRow>().Match(new Dictionary<string, string> {{"owner", user.Id}}).Get();
-        _logger.LogInformation("Got {fighterCount} fighters for {userId}", fighters.Models.Count(), user.Id);
+        var response = await SupabaseUtils.Supabase.From<FighterRow>().Match(new Dictionary<string, string> {{"owner", user.Id}}).Get();
+        _logger.LogInformation("Got {fighterCount} fighters for {userId}", response.Models.Count(), user.Id);
 
-        return fighters.Models.Select(s => new Fighter(s.Id, s.Health, s.Name)).ToList(); 
+        return JsonSerializer.Deserialize<List<Fighter>>(response.Content);
     }
 }
