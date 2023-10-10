@@ -1,7 +1,14 @@
+using System.Text.Json.Serialization;
+
 public class Fighter
 {
+    [JsonPropertyName("id")]
     public Guid Id {get;}
+
+    [JsonPropertyName("health")]
     public int Health {get;}
+
+    [JsonPropertyName("name")]
     public string Name {get;}
 
     public Fighter(Guid id, int health, string name)
