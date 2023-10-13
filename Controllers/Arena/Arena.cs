@@ -1,7 +1,12 @@
+using System.Text.Json.Serialization;
+
 public class Arena {
     public Guid Id { get; }
 
     public List<FighterLocation> Fighters { get; private set; } = new();
+
+    [JsonIgnore]
+    public bool Started { get; set; }
 
     public Arena(Guid id)
     {

@@ -12,6 +12,8 @@ public class InMemoryArenaSource : IArenaSource
         
         return arena;
     }
+
+    public Arena GetArena(Guid arenaId) => ArenaStore.Arenas.FirstOrDefault(s => s.Id == arenaId);
 }
 
 public static class ArenaStore
