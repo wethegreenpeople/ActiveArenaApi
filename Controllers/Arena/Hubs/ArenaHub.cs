@@ -14,8 +14,12 @@ public class ArenaHub : Hub
         await Groups.AddToGroupAsync(Context.ConnectionId, arenaId);
 
         var arena = ArenaStore.Arenas.FirstOrDefault(s => s.Id == Guid.Parse(arenaId));
-        arena.Started = true;
-        _ = ArenaBattleHandler.ArenaUpdate(arena.Id);
+
+        if (!arena.Started)
+        {
+            arena.Started = true;
+            _ = ArenaBattleHandler.ArenaUpdate(arena.Id);
+        }
     }
 
     public async Task UpdateArena(Arena arena)

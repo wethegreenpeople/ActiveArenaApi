@@ -23,7 +23,7 @@ public static class ArenaBattleHandler
             }
 
             await _hubContext.Clients.Group(arenaId.ToString()).SendAsync("UpdateArena", arena);
-            await Task.Delay(100);
+            await Task.Delay(30);
         }
     }
 }

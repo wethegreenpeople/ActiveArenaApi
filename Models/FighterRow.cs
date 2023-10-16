@@ -12,6 +12,9 @@ public class FighterRow : BaseModel
     [Column("health")]
     public int Health {get;}
 
+    [Column("speed")]
+    public int Speed {get;}
+
     [Column("name")]
     public string Name {get;}
 
@@ -27,6 +30,7 @@ public class FighterRow : BaseModel
     {
         Id = fighter.Id;
         Health = fighter.Health;
+        Speed = fighter.Speed;
         Name = fighter.Name;
         Owner = Guid.Parse(ownerId);
     }

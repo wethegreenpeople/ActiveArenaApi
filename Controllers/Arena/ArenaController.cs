@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
 
@@ -23,13 +24,17 @@ public class ArenaController : ControllerBase
         var accessToken = Request.Headers[HeaderNames.Authorization].First();
         var user = SupabaseUtils.IsAuthenticatedAsync(accessToken).Result;
         if (user == null) return Unauthorized();
+
+        var fighterResponse = await SupabaseUtils.Supabase.From<FighterRow>().Match(new Dictionary<string, string> {{"owner", user.Id}, {"id", fighterId}}).Get();
+        var fighter = JsonSerializer.Deserialize<List<Fighter>>(fighterResponse.Content).First();
         
         bool addedFighter;
         Arena arena;
+        
         do
         {
             arena = _arenaSource.GetOpenArena();
-            addedFighter = arena.AddFighter(Guid.Parse(fighterId));
+            addedFighter = arena.AddFighter(fighter);
         } while (!addedFighter);
 
         _logger.LogInformation($"Added {fighterId} to {arena.Id}");

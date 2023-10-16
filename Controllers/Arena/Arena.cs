@@ -13,16 +13,16 @@ public class Arena {
         this.Id = id;
     }
 
-    public bool AddFighter(Guid fighterId)
+    public bool AddFighter(Fighter fighter)
     {
         if (Fighters.Count() >= 4) return false;
-        if (Fighters.Any(s => s.FighterId == fighterId)) return true;
+        if (Fighters.Any(s => s.FighterId == fighter.Id)) return true;
 
         var rand = new Random();
-        var XLoc = rand.Next(0, 100);
-        var YLoc = rand.Next(0, 100);
+        var XLoc = rand.Next(10, 90);
+        var YLoc = rand.Next(10, 90);
 
-        this.Fighters.Add(new FighterLocation(fighterId, XLoc, YLoc));
+        this.Fighters.Add(new FighterLocation(fighter.Id, fighter.Speed, XLoc, YLoc));
 
         return true;
     }
