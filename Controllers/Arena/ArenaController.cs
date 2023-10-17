@@ -37,6 +37,12 @@ public class ArenaController : ControllerBase
             addedFighter = arena.AddFighter(fighter);
         } while (!addedFighter);
 
+        if (arena.Fighters.Count() == 4)
+        {
+            arena.Started = true;
+            _ = ArenaBattleHandler.ArenaUpdate(arena.Id);
+        }
+
         _logger.LogInformation($"Added {fighterId} to {arena.Id}");
 
         return Ok(arena);
