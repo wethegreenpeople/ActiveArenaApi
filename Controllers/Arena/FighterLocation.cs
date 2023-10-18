@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 public class FighterLocation 
 {
     public Guid FighterId { get; }
+    public string FighterName { get; }
 
     [JsonIgnore]
     public double FighterSpeed { get; }
@@ -12,9 +13,10 @@ public class FighterLocation
     public short XDirection { get; private set; } = 0;
     public short YDirection { get; private set; } = 1;
 
-    public FighterLocation(Guid fighter, double fighterSpeed, double x, double y)
+    public FighterLocation(Guid fighter, string fighterName, double fighterSpeed, double x, double y)
     {
         this.FighterId = fighter;
+        this.FighterName = fighterName;
         this.FighterSpeed = fighterSpeed;
         this.XLoc = x;
         this.YLoc = y;

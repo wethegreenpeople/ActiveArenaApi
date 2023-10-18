@@ -22,7 +22,7 @@ public class Arena {
         var XLoc = rand.Next(10, 90);
         var YLoc = rand.Next(10, 90);
 
-        this.Fighters.Add(new FighterLocation(fighter.Id, fighter.Speed, XLoc, YLoc));
+        this.Fighters.Add(new FighterLocation(fighter.Id, fighter.Name, fighter.Speed, XLoc, YLoc));
 
         return true;
     }
