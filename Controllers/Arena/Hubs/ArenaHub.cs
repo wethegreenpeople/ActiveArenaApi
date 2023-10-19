@@ -20,4 +20,9 @@ public class ArenaHub : Hub
     {
         await Clients.Group(arena.Id.ToString()).SendAsync("UpdateArena", arena);
     }
+
+    public async Task UpdateFightersInArena(Arena arena)
+    {
+        await Clients.Group(arena.Id.ToString()).SendAsync("UpdateArenaFighters", arena.Fighters);
+    }
 }

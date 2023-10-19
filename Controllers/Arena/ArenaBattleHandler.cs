@@ -37,8 +37,10 @@ public static class ArenaBattleHandler
                 if (!arena.Started && arena.Fighters.Count() >= 1 && arena.Fighters.Count() < 5)
                 {
                     arena.AddFighter(Fighter.GenerateFighter());
-                    await _hubContext.Clients.Group(arena.Id.ToString()).SendAsync("UpdateArena", arena);
-
+                    var arenaUpdate = _hubContext.Clients.Group(arena.Id.ToString()).SendAsync("UpdateArena", arena);
+                    var fightersUpdate = _hubContext.Clients.Group(arena.Id.ToString()).SendAsync("UpdateArenaFighters", arena);
+                    await Task.WhenAll(arenaUpdate, fightersUpdate);
+                    
                     // If a bot is the last fighter to be added, we need to trigger the arena update
                     if (arena.Fighters.Count() == 4)
                     {
